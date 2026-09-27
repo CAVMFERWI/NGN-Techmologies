@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NGN Technologies</title>
+<meta name="description" content="Jogo educativo de conscientização ambiental e prevenção de desastres naturais para jovens do RS.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <p class="logo">NGN <span>Technologies</span></p>
+  <nav aria-label="Navegação principal">
+    <button type="button" class="nav-btn" data-target="tela-jogo">Jogo</button>
+    <button type="button" class="nav-btn" data-target="tela-ranking">Ranking</button>
+    <button type="button" class="nav-btn" id="btn-sair">Sair</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- TELA 1: LOGIN / CADASTRO -->
+  <section id="tela-login" class="tela">
+    <h1>Bem-vindo ao NGN Technologies</h1>
+    <p>Jogo educativo sobre desastres naturais e conscientização ambiental no Rio Grande do Sul.</p>
+
+    <form id="form-auth" novalidate>
+      <div class="campo">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required minlength="2" autocomplete="name">
+      </div>
+      <div class="campo">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+      </div>
+      <div class="campo">
+        <label for="escola">Escola</label>
+        <input type="text" id="escola" name="escola" autocomplete="organization">
+      </div>
+      <button type="submit" class="btn-primario">Entrar / Cadastrar</button>
+      <p id="auth-feedback" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <!-- TELA 2: JOGO -->
+  <section id="tela-jogo" class="tela oculta">
+    <h1>Jogando: <span id="jogador-nome">-</span></h1>
+    <p>Pontuação atual: <strong id="jogador-pontos">0</strong></p>
+
+    <div class="jogo-embed" role="img" aria-label="Área de exibição do jogo NGN Technologies, exportado em HTML5 pela Godot Engine">
+      <!--
+        Aqui entra o export HTML5 do Godot (index.html/js/wasm/pck).
+        Substituir esta div por um <iframe src="godot/index.html" title="Jogo NGN Technologies">
+        ou pelo canvas gerado pelo próprio export, mantendo o texto alternativo acima.
+      -->
+      <p>[ Área reservada para o build HTML5 do Godot Engine ]</p>
+    </div>
+
+    <button type="button" id="btn-simular-pontos" class="btn-secundario">Simular +10 pontos (teste sem o jogo)</button>
+    <p id="jogo-feedback" role="status" aria-live="polite"></p>
+  </section>
+
+  <!-- TELA 3: RANKING -->
+  <section id="tela-ranking" class="tela oculta">
+    <h1>Ranking</h1>
+    <table>
+      <caption class="sr-only">Ranking de jogadores por pontuação, do maior para o menor</caption>
+      <thead>
+        <tr><th scope="col">Posição</th><th scope="col">Jogador</th><th scope="col">Escola</th><th scope="col">Pontos</th></tr>
+      </thead>
+      <tbody id="ranking-corpo">
+        <tr><td colspan="4">Nenhum jogador cadastrado ainda.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  <p>NGN Technologies &middot; Projeto Técnico em Informática &middot; ETE Monteiro Lobato</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
