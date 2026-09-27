@@ -6,6 +6,25 @@ Camada web (login/cadastro, jogo e ranking) do projeto NGN Technologies. O jogo 
 
 Abra `index.html` direto no navegador, ou publique a pasta no GitHub Pages / Vercel / Netlify (sem build, é HTML/CSS/JS puro).
 
+## Enviando pontos do jogo para o ranking
+
+O export HTML5 do Godot fica em `godot/` (renomeie o HTML exportado para `index.html`; no Godot 4, deixe **Thread Support** desligado no preset Web). A página carrega esse export num `<iframe>` e escuta mensagens `postMessage`.
+
+No GDScript, chame esta função sempre que o jogador ganhar pontos (Godot 4):
+
+```gdscript
+func enviar_pontos(qtd: int) -> void:
+	# Só existe no export Web; no editor/desktop não faz nada.
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval(
+			"window.parent.postMessage({tipo: 'ngn_pontos', pontos: %d}, window.location.origin)" % qtd
+		)
+```
+
+No Godot 3, troque `JavaScriptBridge` por `JavaScript` e `"web"` por `"JavaScript"`.
+
+A página soma os pontos ao jogador logado, salva no `localStorage` e atualiza o placar. Mensagens de outra origem, de fora do iframe do jogo ou com valor que não seja inteiro positivo são ignoradas.
+
 ## Checklist dos 5 critérios de avaliação
 
 | Critério | Atende? | Por quê |
@@ -18,5 +37,5 @@ Abra `index.html` direto no navegador, ou publique a pasta no GitHub Pages / Ver
 
 ## Pendências para produção
 
-- Trocar a `div.jogo-embed` pelo `<iframe>` ou canvas do export HTML5 do Godot.
+- Colocar o export HTML5 do Godot em `godot/` e chamar `enviar_pontos()` no GDScript (ver acima). Depois disso, o botão "Simular +10 pontos" pode ser removido.
 - `localStorage` cobre o critério de persistência do protótipo; para ranking real entre escolas, sincronizar com Firebase (ver seção 5.9.4 do projeto de pesquisa), mantendo o `localStorage` como cache local.

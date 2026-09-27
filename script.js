@@ -118,6 +118,17 @@ function iniciar() {
 
   document.getElementById("btn-simular-pontos").addEventListener("click", () => somarPontos(10));
 
+  // Ponte Godot → ranking: o jogo (dentro do iframe) manda
+  // { tipo: "ngn_pontos", pontos: N } via postMessage (ver README).
+  // Só aceita mensagens do próprio iframe do jogo, no mesmo site,
+  // com um número inteiro positivo — o resto é ignorado em silêncio (critério 4).
+  window.addEventListener("message", (e) => {
+    const frame = document.getElementById("jogo-frame");
+    if (e.origin !== location.origin || e.source !== frame.contentWindow) return;
+    const { tipo, pontos } = e.data || {};
+    if (tipo === "ngn_pontos" && Number.isInteger(pontos) && pontos > 0) somarPontos(pontos);
+  });
+
   document.getElementById("btn-sair").addEventListener("click", () => {
     localStorage.removeItem(STORAGE_SESSION);
     mostrarTela("tela-login");
