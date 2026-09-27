@@ -60,6 +60,9 @@ main {
 
 .tela.oculta { display: none; }
 
+/* Critério 5: nome/escola longos quebram a linha em vez de criar scroll horizontal */
+h1, td { overflow-wrap: anywhere; }
+
 .campo { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.25rem; }
 .campo label { font-weight: 600; }
 .campo input {
@@ -83,16 +86,21 @@ main {
 
 [role="status"] { min-height: 1.2em; font-size: 0.9rem; }
 
+/* Critério 5: o jogo encolhe com a tela, mantendo a proporção 16:9 */
 .jogo-embed {
   background: var(--verde-claro);
-  border: 2px dashed var(--verde);
+  border: 2px solid var(--verde);
   border-radius: 8px;
-  min-height: 240px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 1rem;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+.jogo-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 table { width: 100%; border-collapse: collapse; margin-top: 1rem; }

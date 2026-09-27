@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NGN Technologies</title>
 <meta name="description" content="Jogo educativo de conscientização ambiental e prevenção de desastres naturais para jovens do RS.">
+<!-- Critério 4: favicon vazio evita o 404 vermelho de /favicon.ico no console -->
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -47,14 +49,20 @@
     <h1>Jogando: <span id="jogador-nome">-</span></h1>
     <p>Pontuação atual: <strong id="jogador-pontos">0</strong></p>
 
-    <div class="jogo-embed" role="img" aria-label="Área de exibição do jogo NGN Technologies, exportado em HTML5 pela Godot Engine">
-      <!--
-        Aqui entra o export HTML5 do Godot (index.html/js/wasm/pck).
-        Substituir esta div por um <iframe src="godot/index.html" title="Jogo NGN Technologies">
-        ou pelo canvas gerado pelo próprio export, mantendo o texto alternativo acima.
-      -->
-      <p>[ Área reservada para o build HTML5 do Godot Engine ]</p>
+    <!--
+      Export HTML5 do Godot fica em godot/ (index.html/js/wasm/pck).
+      O iframe isola o canvas e o teclado do Godot da página: os forms e
+      botões daqui continuam com preventDefault() (critério 2).
+      O src é preenchido pelo script.js só quando a tela do jogo abre,
+      para o Godot não iniciar escondido num iframe de tamanho zero.
+    -->
+    <div class="jogo-embed">
+      <iframe id="jogo-frame" data-src="godot/index.html"
+              title="Jogo NGN Technologies: conscientização ambiental e prevenção de desastres naturais"
+              aria-describedby="jogo-descricao" allow="autoplay; fullscreen" allowfullscreen></iframe>
     </div>
+    <!-- Critério 5: texto alternativo do jogo para leitores de tela -->
+    <p id="jogo-descricao" class="sr-only">Jogo educativo feito na Godot Engine em que o jogador aprende a prevenir e agir em desastres naturais no Rio Grande do Sul. Use o teclado ou o mouse dentro da área do jogo.</p>
 
     <button type="button" id="btn-simular-pontos" class="btn-secundario">Simular +10 pontos (teste sem o jogo)</button>
     <p id="jogo-feedback" role="status" aria-live="polite"></p>

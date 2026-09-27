@@ -40,17 +40,25 @@ function renderizarRanking() {
     return;
   }
 
-  corpo.innerHTML = jogadores
-    .map(
-      (j, i) => `
-      <tr>
-        <td data-label="Posição">${i + 1}º</td>
-        <td data-label="Jogador">${j.nome}</td>
-        <td data-label="Escola">${j.escola || "-"}</td>
-        <td data-label="Pontos">${j.pontos}</td>
-      </tr>`
-    )
-    .join("");
+  // Critério 4: textContent em vez de innerHTML — um nome como
+  // "<img onerror=...>" vira texto comum, não código executado.
+  corpo.replaceChildren(
+    ...jogadores.map((j, i) => {
+      const linha = document.createElement("tr");
+      [
+        ["Posição", `${i + 1}º`],
+        ["Jogador", j.nome],
+        ["Escola", j.escola || "-"],
+        ["Pontos", j.pontos],
+      ].forEach(([rotulo, valor]) => {
+        const celula = document.createElement("td");
+        celula.dataset.label = rotulo;
+        celula.textContent = valor;
+        linha.append(celula);
+      });
+      return linha;
+    })
+  );
 }
 
 function entrarComoJogador(dados) {
@@ -71,6 +79,10 @@ function irParaTelaJogo(jogador) {
   document.getElementById("jogador-nome").textContent = jogador.nome;
   document.getElementById("jogador-pontos").textContent = jogador.pontos;
   mostrarTela("tela-jogo");
+
+  // Carrega o Godot só na primeira vez que a tela do jogo fica visível.
+  const frame = document.getElementById("jogo-frame");
+  if (!frame.src) frame.src = frame.dataset.src;
 }
 
 function somarPontos(qtd) {
