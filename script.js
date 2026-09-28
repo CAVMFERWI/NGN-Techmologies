@@ -5,6 +5,11 @@
 const STORAGE_PLAYERS = "ngn_players";
 const STORAGE_SESSION = "ngn_current_user";
 
+// Critério 1/4: godot/index.html ainda não existe no repositório, então o
+// iframe nem tenta carregar (evita 404 e erro vermelho no console).
+// Troque para `true` só depois de subir o export do Godot em godot/.
+const JOGO_PRONTO = false;
+
 function lerJogadores() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_PLAYERS)) || [];
@@ -80,8 +85,12 @@ function irParaTelaJogo(jogador) {
   document.getElementById("jogador-pontos").textContent = jogador.pontos;
   mostrarTela("tela-jogo");
 
-  // Carrega o Godot só na primeira vez que a tela do jogo fica visível.
+  // Carrega o Godot só na primeira vez que a tela do jogo fica visível,
+  // e só quando o export já estiver no repositório (JOGO_PRONTO).
+  if (!JOGO_PRONTO) return;
   const frame = document.getElementById("jogo-frame");
+  document.getElementById("jogo-placeholder").classList.add("oculta");
+  frame.classList.remove("oculta");
   if (!frame.src) frame.src = frame.dataset.src;
 }
 
