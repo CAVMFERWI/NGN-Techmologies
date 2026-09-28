@@ -109,6 +109,9 @@ h1, td { overflow-wrap: anywhere; }
   color: var(--verde);
 }
 
+/* O #id acima vence o .oculta genérico; sem isto o aviso ficaria por cima do jogo */
+#jogo-placeholder.oculta { display: none; }
+
 .jogo-embed iframe {
   display: block;
   width: 100%;
